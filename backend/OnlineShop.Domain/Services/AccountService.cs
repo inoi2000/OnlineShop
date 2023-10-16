@@ -20,7 +20,7 @@ namespace OnlineShop.Domain.Services
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task Register(string login, string email, string password, CancellationToken token)
+        public virtual async Task Register(string login, string email, string password, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(login)) { throw new ArgumentException($"\"{nameof(login)}\" не может быть пустым или содержать только пробел.", nameof(login)); }
             if (string.IsNullOrWhiteSpace(email)) { throw new ArgumentException($"\"{nameof(email)}\" не может быть пустым или содержать только пробел.", nameof(email)); }
@@ -36,7 +36,7 @@ namespace OnlineShop.Domain.Services
         }
 
 
-        public async Task<Account> Authorisation(string login, string password, CancellationToken token)
+        public virtual async Task<Account> Authorisation(string login, string password, CancellationToken token)
         {
             ArgumentNullException.ThrowIfNullOrEmpty($"\"{nameof(login)}\" не может быть пустым или содержать только пробел.", nameof(login));
             ArgumentNullException.ThrowIfNullOrEmpty($"\"{nameof(password)}\" не может быть пустым или содержать только пробел.", nameof(password));
@@ -73,6 +73,11 @@ namespace OnlineShop.Domain.Services
             var hashPassword = _hasher.HashPassword(password);
             _logger.LogDebug($"Password hasher {hashPassword}");
             return hashPassword;
+        }
+
+        public async Task<Account> GetAccountById(Guid id, CancellationToken cancellationToken)
+        {
+            return await _accountRepository.GetById(id, cancellationToken);
         }
 
     }

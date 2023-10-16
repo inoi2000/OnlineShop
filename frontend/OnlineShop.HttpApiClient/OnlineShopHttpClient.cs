@@ -1,9 +1,9 @@
-﻿using Microsoft.Win32;
-using OnlineShop.HttpApiClient;
+﻿using OnlineShop.HttpApiClient;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
 using OnlineShopHttpApiClient.Models;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace OnlineShopHttpApiClient
@@ -143,6 +143,10 @@ namespace OnlineShopHttpApiClient
             }
 
             var authorisationResponse = await response.Content.ReadFromJsonAsync<AuthorisationResponse>(cancellationToken: token);
+
+            var headerValue = new AuthenticationHeaderValue("Bearer", authorisationResponse?.Token);
+            _httpClient.DefaultRequestHeaders.Authorization = headerValue;
+
             return authorisationResponse!;
         }
         #endregion

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.HttpModels.Responses
 {
-    public record AuthorisationResponse(Guid Id, string Name);
+    public record AuthorisationResponse(Guid Id, string Name, string Token);
 }

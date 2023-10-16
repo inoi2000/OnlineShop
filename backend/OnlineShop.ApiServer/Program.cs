@@ -9,6 +9,10 @@ using IdentityPasswordHasherLib;
 using Microsoft.AspNetCore.HttpLogging;
 using OnlineShop.WebApi;
 using OnlineShop.WebApi.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using OnlineShop.WebApi.Configurations;
+using OnlineShop.WebApi.Services;
 
 namespace OnlineShop.ApiServer
 {
@@ -27,6 +31,11 @@ namespace OnlineShop.ApiServer
 
             builder.Services.AddCors();
 
+            JwtConfig jwtConfig = builder.Configuration.GetRequiredSection("JwtConfig").Get<JwtConfig>()!;
+            if (jwtConfig is null) { throw new InvalidOperationException("JwtConfig is not configured"); }
+            builder.Services.AddSingleton(jwtConfig);
+            builder.Services.AddSingleton<ITokenService, TokenService>();
+
             var dbPath = "myapp.db";
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={dbPath}"));
 
@@ -43,6 +52,30 @@ namespace OnlineShop.ApiServer
                                         | HttpLoggingFields.RequestBody
                                         | HttpLoggingFields.ResponseBody;
             });
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtConfig.SigningKeyBytes),
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+                    RequireSignedTokens = true,
+
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidAudiences = new[] { jwtConfig.Audience },
+                    ValidIssuer = jwtConfig.Issuer
+                };
+            });
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
@@ -67,6 +100,7 @@ namespace OnlineShop.ApiServer
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(policy =>
