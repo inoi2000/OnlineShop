@@ -1,0 +1,39 @@
+﻿@page "/catalog"
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
+
+<PageTitle>Catalog</PageTitle>
+
+<div Class="d-flex">
+    <div Class="d-flex">
+    <MudPaper Class="d-flex me-4" MaxWidth="250px" MinWidth="250px">
+        <MudTextField Class="ms-3 me-3" @bind-Value="@MinPrice"></MudTextField>
+        <MudText Class="mt-7">-</MudText>
+            <MudTextField Class="ms-3 me-3" @bind-Value="@MaxPrice"></MudTextField>
+    </MudPaper>
+    </div>
+    <MudButton Class="mx-auto" Color="Color.Primary" OnClick="@(()=> StartSearch())">Найти</MudButton>
+    <div Class="d-flex flex-wrap" Width="auto">
+        @if (Products is not null){
+            @foreach (var product in Products)
+            {
+                <MudPaper Class="mx-2 my-3" Width="300px" Height="350px">
+                    <MudCard>
+                        <MudCardMedia Image=@product.ImagUri.ToString() Height="200" onclick="@(()=> NavigateToProductInfo(product.Id))" />
+                        <MudCardContent >
+                            <MudText Typo="Typo.h5">@product.Name</MudText>
+                            <MudText Typo="Typo.body1">@product.Price</MudText>
+                            <MudText Typo="Typo.body2" >@product.Description</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Success" OnClick="@(() => AddToBasket(product))">В корзину</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudPaper>
+            }
+
+        }
+        else{
+            <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+        }
+    </div>
+</div>

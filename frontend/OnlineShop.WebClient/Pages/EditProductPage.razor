@@ -1,0 +1,28 @@
+﻿@page "/edit_product/{Id:guid}"
+@using System.ComponentModel.DataAnnotations;
+
+<PageTitle>Edit product</PageTitle>
+
+@if (Product is not null)
+{
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudPaper Class="pa-4">
+                <MudForm @ref="form">
+                    <MudTextField T="string" Label="Название" Required="true" RequiredError="Название обязательно к заполнению!" @bind-Value="@Name" />
+                    <MudTextField T="string" Label="Описание" Required="true" RequiredError="Описание обязательно к заполнению!" @bind-Value="@Description" />
+                    <MudTextField T="string" Label="Ссылка на изображение" Required="true" RequiredError="Ссылка на изображение обязательна к заполнению!" @bind-Value="@ImagUri" />
+                    <MudNumericField T="decimal" Label="Цена" Required="true" RequiredError="Цена обязательна к заполнению!" @bind-Value="@Price" />
+                </MudForm>
+            </MudPaper>
+            <MudPaper Class="pa-4 mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" DisableElevation="true" OnClick="@(() => SaveChanges())">Сохранить изменения</MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+}
+else
+{
+    <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+}

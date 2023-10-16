@@ -1,0 +1,33 @@
+﻿@page "/authorisation"
+@using System.ComponentModel.DataAnnotations;
+
+<PageTitle>Authorisation</PageTitle>
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Login"
+                                  @bind-Value="model.Login" For="@(() => model.Login)" />
+                    <MudTextField Label="Password" Class="mt-3"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="ml-auto" OnClick="@(()=>MoveToRegistration())">Зарегистрироваться</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Войти</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        
+        @if (_authorisationInProgress)
+        {
+            <MudItem xs="12">
+                <MudProgressLinear Color="Color.Success" Striped="true" Size="Size.Large" Value="75" Class="my-7" />
+            </MudItem>
+        }
+        
+        
+    </MudGrid>
+</EditForm>

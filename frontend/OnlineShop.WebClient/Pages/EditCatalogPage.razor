@@ -1,0 +1,29 @@
+﻿@page "/edit_catalog"
+
+<PageTitle>Edit catalog</PageTitle>
+
+<div Class="d-flex flex-wrap gap-4" Width="auto">
+    @if (Products is not null){
+        @foreach (var product in Products)
+        {
+            <MudPaper Width="300px" Height="350px">
+                <MudCard>
+                    <MudCardMedia Image=@product.ImagUri.ToString() Height="200" onclick="@(()=> NavigateToProductInfo(product.Id))" />
+                    <MudCardContent >
+                        <MudText Typo="Typo.h5">@product.Name</MudText>
+                        <MudText Typo="Typo.body1">@product.Price</MudText>
+                        <MudText Typo="Typo.body2" >@product.Description</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Warning" OnClick="@(() => NavigateToEditProduct(product.Id))">Редактировать</MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@(() => DeleatProduct(product.Id))">Удалить</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudPaper>
+        }
+
+    }
+    else{
+        <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+    }
+</div>

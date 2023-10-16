@@ -1,0 +1,36 @@
+﻿@page "/registration"
+@using System.ComponentModel.DataAnnotations;
+
+<PageTitle>Registration</PageTitle>
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Login" HelperText="Max. 8 characters"
+                                  @bind-Value="model.Login" For="@(() => model.Login)" />
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="model.Email" For="@(() => model.Email)" />
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                                  @bind-Value="model.ConfirmedPassword" For="@(() => model.ConfirmedPassword)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        
+        @if (_registrationInProgress)
+        {
+            <MudItem xs="12">
+                <MudProgressLinear Color="Color.Success" Striped="true" Size="Size.Large" Value="75" Class="my-7" />
+            </MudItem>
+        }
+        
+        
+    </MudGrid>
+</EditForm>

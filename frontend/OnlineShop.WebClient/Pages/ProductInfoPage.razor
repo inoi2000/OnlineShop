@@ -1,0 +1,26 @@
+﻿@page "/product_info/{Id:guid}"
+@using System.ComponentModel.DataAnnotations;
+
+<PageTitle>Product Info</PageTitle>
+
+@if (Product is not null)
+{
+    <MudPaper Width="500px" Height="600px">
+        <MudCard>
+            <MudCardMedia Image=@Product.ImagUri.ToString() Height="300" />
+            <MudCardContent>
+                <MudText Typo="Typo.h3">Название: @Product.Name</MudText>
+                <MudText Typo="Typo.h4">Цена @Product.Price руб.</MudText>
+                <MudText Typo="Typo.h5">Описание: @Product.Description</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">В корзину</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudPaper>
+
+}
+else
+{
+    <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+}
