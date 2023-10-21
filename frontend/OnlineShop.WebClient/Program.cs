@@ -27,6 +27,8 @@ builder.Services.AddMudServices(config =>
 });
 //builder.Services.AddSingleton<IOnlineShopClient, OnlineShopHttpClient>();
 builder.Services.AddSingleton<IOnlineShopClient>(new OnlineShopHttpClient(host: "https://localhost:7067/"));
+builder.Services.AddSingleton<AppState>();
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddBlazoredLocalStorage(config => config.JsonSerializerOptions.WriteIndented = true);
 

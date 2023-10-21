@@ -143,11 +143,34 @@ namespace OnlineShopHttpApiClient
             }
 
             var authorisationResponse = await response.Content.ReadFromJsonAsync<AuthorisationResponse>(cancellationToken: token);
-
-            var headerValue = new AuthenticationHeaderValue("Bearer", authorisationResponse?.Token);
-            _httpClient.DefaultRequestHeaders.Authorization = headerValue;
-
+            SetAuthorizationToken(authorisationResponse?.Token!);
             return authorisationResponse!;
+        }
+
+        public void SetAuthorizationToken(string token)
+        {
+            var headerValue = new AuthenticationHeaderValue("Bearer", token);
+            _httpClient.DefaultRequestHeaders.Authorization = headerValue;
+        }
+
+        public void DeleteAuthorizationToken()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public async Task<AccountResponse> GetCurrentUser(CancellationToken token)
+        {
+            var accountResponse = await _httpClient.GetFromJsonAsync<AccountResponse>("accounts/current", token);
+            if (accountResponse != null)
+            {
+                return accountResponse;
+            }
+            else 
+            { 
+                //TODO Проработать ошибки!!
+                return null; 
+            }
+            
         }
         #endregion
     }

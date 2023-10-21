@@ -12,7 +12,6 @@ namespace OnlineShop.WebClient.Pages;
 
 public partial class AuthorisationPage
 {
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Inject] private ISnackbar Snackbar { get; set; }
 
@@ -50,8 +49,10 @@ public partial class AuthorisationPage
 
                 var account = new AuthorisationRequest(model.Login, model.Password);
                 var authorisationResponse = await OnlineShopClient.AuthorisationAsync(account, _cts.Token);
+                await LocalStorage.SetItemAsync("token", authorisationResponse.Token);
                 //TODO Функционал использования авторизованного пользователя
                 Snackbar.Add("Авторизация успешно завершена!", Severity.Success);
+                State.LoggedIn = true;
 
                 NavigationManager.NavigateTo("/catalog");
             }

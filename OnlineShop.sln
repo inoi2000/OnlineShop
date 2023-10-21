@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFrame
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{C68307C6-1BDB-4099-BE49-61D7A54A6BA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityPasswordHasherLib", "backend\infrastructure\IdentityPasswordHasherLib\IdentityPasswordHasherLib.csproj", "{DAD484D6-4822-4046-A95B-954E2026DE9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityPasswordHasherLib", "backend\infrastructure\IdentityPasswordHasherLib\IdentityPasswordHasherLib.csproj", "{DAD484D6-4822-4046-A95B-954E2026DE9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

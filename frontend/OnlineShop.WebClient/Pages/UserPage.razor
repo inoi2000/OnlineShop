@@ -1,0 +1,13 @@
+﻿@page "/current"
+@using System.ComponentModel.DataAnnotations;
+@inherits AppComponentBase
+
+<PageTitle>Current User</PageTitle>
+
+@if(Account != null)
+{
+    <MudText>@Account.Id</MudText>
+    <MudText>@Account.Name</MudText>
+    <MudText>@Account.Email</MudText>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => Exit())">Выход</MudButton>
+}

@@ -17,5 +17,8 @@ namespace OnlineShopHttpApiClient
 
         Task RegisterAccountAsync(RegisterRequest request, CancellationToken token);
         Task<AuthorisationResponse> AuthorisationAsync(AuthorisationRequest request, CancellationToken token);
+        void SetAuthorizationToken(string token);
+        void DeleteAuthorizationToken();
+        Task<AccountResponse> GetCurrentUser(CancellationToken token);
     }
 }
