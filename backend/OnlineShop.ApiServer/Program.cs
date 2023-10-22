@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using OnlineShop.WebApi.Configurations;
 using OnlineShop.WebApi.Services;
+using OnlineShop.Data.EntityFramework.Reposirories;
 
 namespace OnlineShop.ApiServer
 {
@@ -42,7 +43,10 @@ namespace OnlineShop.ApiServer
             builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             builder.Services.AddScoped<IProductRepository, ProductRepositoryEf>();
             builder.Services.AddScoped<IAccountRepository, AccountRepositoryEf>();
+            builder.Services.AddScoped<ICartRepository, CartRepositoryEf>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEf>();
             builder.Services.AddScoped<AccountService>();
+            builder.Services.AddScoped<CartService>();
             builder.Services.AddSingleton<IApplicationPasswordHasher, IdentityPasswordHasher>();
 
             builder.Services.AddHttpLogging(options => //настройка

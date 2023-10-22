@@ -2,24 +2,29 @@
 using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Exeptions;
 using OnlineShop.Domain.Interfaces;
+using System.Xml.Linq;
 
 namespace OnlineShop.Domain.Services
 {
     public class AccountService
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IApplicationPasswordHasher _hasher;
+        private readonly IApplicationPasswordHasher _hasher;        
+        private readonly IUnitOfWork _uow;
         private readonly ILogger<AccountService> _logger;
 
         public AccountService(
             IAccountRepository accountRepository, 
             IApplicationPasswordHasher hasher,
+            IUnitOfWork uow,
             ILogger<AccountService> logger)
         {
             _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
         }
+
         public virtual async Task Register(string login, string email, string password, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(login)) { throw new ArgumentException($"\"{nameof(login)}\" не может быть пустым или содержать только пробел.", nameof(login)); }
@@ -32,7 +37,12 @@ namespace OnlineShop.Domain.Services
                 throw new EmailAlreadyExistsExeption();
             }
             Account account = new Account(login, email, EncryptPassword(password));
-            await _accountRepository.Add(account, token);
+            //await _accountRepository.Add(account, token);
+            var cart = new Cart(account.Id);
+
+            await _uow.AccountRepository.Add(account, token);
+            await _uow.CartRepository.Add(cart, token);
+            await _uow.SaveChangesAsync(token);
         }
 
 
