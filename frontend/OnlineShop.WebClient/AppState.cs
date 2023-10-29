@@ -1,4 +1,6 @@
-﻿namespace OnlineShop.WebClient
+﻿using OnlineShop.HttpModels.Responses;
+
+namespace OnlineShop.WebClient
 {
     public class AppState
     {
@@ -18,6 +20,8 @@
                 }
             }
         }
+
+        public AccountResponse? Account { get; set; }
 
         private void NotifyStateChanged() => OnChange?.Invoke();
     }

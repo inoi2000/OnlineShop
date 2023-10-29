@@ -50,7 +50,7 @@ public partial class AuthorisationPage
                 var account = new AuthorisationRequest(model.Login, model.Password);
                 var authorisationResponse = await OnlineShopClient.AuthorisationAsync(account, _cts.Token);
                 await LocalStorage.SetItemAsync("token", authorisationResponse.Token);
-                //TODO Функционал использования авторизованного пользователя
+                
                 Snackbar.Add("Авторизация успешно завершена!", Severity.Success);
                 State.LoggedIn = true;
 

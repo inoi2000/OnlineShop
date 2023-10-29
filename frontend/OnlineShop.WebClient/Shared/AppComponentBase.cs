@@ -10,6 +10,8 @@ namespace OnlineShop.WebClient.Shared
         [Inject] protected ILocalStorageService LocalStorage { get; private set; }
         [Inject] protected AppState State { get; private set; }
 
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -21,6 +23,7 @@ namespace OnlineShop.WebClient.Shared
             if (!string.IsNullOrWhiteSpace(token))
             {
                 OnlineShopClient.SetAuthorizationToken(token);
+                State.Account = await OnlineShopClient.GetCurrentUser(_cts.Token);
                 State.LoggedIn = true;
             }
             else
