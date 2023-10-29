@@ -1,7 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
+using OnlineShop.HttpModels.Models;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -10,10 +10,9 @@ namespace OnlineShop.WebClient.Pages;
 public partial class CatalogPage : IDisposable
 {
     //private ILocalStorageService localStorage;
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
-    private IReadOnlyList<Product>? Products { get; set; }
+    private IReadOnlyList<ProductResponse>? Products { get; set; }
 
     private CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -35,13 +34,20 @@ public partial class CatalogPage : IDisposable
         Navigation.NavigateTo($"/product_info/{id}", false);
     }
 
-    public async Task AddToBasket(Product product)
+    public async Task AddToBasket(ProductResponse product)
     {
-        var tempProductList = await localStorage.GetItemAsync<List<Product>>("onlineShop_basket");
-        if(tempProductList == null) { tempProductList = new List<Product>(); }
-        var ProductList = new List<Product>(tempProductList) { product };
+        var tempProductList = await LocalStorage.GetItemAsync<List<ProductResponse>>("onlineShop_basket");
+        if(tempProductList == null) { tempProductList = new List<ProductResponse>(); }
+        var ProductList = new List<ProductResponse>(tempProductList) { product };
 
-        await localStorage.SetItemAsync<List<Product>>("onlineShop_basket", ProductList);
+        await LocalStorage.SetItemAsync<List<ProductResponse>>("onlineShop_basket", ProductList);
+    }
+
+    public async Task AddToCart(ProductResponse product)
+    {
+        await OnlineShopClient.AddProductToCartAsync(product.Id, _cts.Token);
+
+        //TODO добавить snak при успехе и при ошибке
     }
 
     protected override async Task OnInitializedAsync()

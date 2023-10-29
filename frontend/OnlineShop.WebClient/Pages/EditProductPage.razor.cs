@@ -3,15 +3,13 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using MudBlazor;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
+using OnlineShop.HttpModels.Models;
 
 namespace OnlineShop.WebClient.Pages;
 
 public partial class EditProductPage
 {
     [Parameter] public Guid Id { get; set; }
-
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
 
     private string Name { get; set; } = String.Empty;
     private string Description { get; set; } = String.Empty;
@@ -21,13 +19,13 @@ public partial class EditProductPage
     MudForm form;
 
 
-    private Product Product { get; set; }
+    private ProductResponse Product { get; set; }
 
     private CancellationTokenSource _cts = new CancellationTokenSource();
 
     public async Task SaveChanges()
     {
-        var newProduct = new Product(Product.Id, Name, Description, Price, new Uri(ImagUri));
+        var newProduct = new ProductResponse(Product.Id, Name, Description, Price, new Uri(ImagUri));
         await OnlineShopClient.EditProductAsync(newProduct, _cts.Token);
     }
 

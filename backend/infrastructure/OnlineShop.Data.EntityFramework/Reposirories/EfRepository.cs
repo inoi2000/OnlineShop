@@ -29,6 +29,13 @@ namespace OnlineShop.Data.EntityFramework.Repositories
             await _dbContext.SaveChangesAsync(token);
         }
 
+        public virtual async Task AddUnsafe(TEntity entity, CancellationToken token)
+        {
+            if (entity is null) { throw new ArgumentNullException(nameof(entity)); }
+
+            await Entities.AddAsync(entity, token);
+        }
+
         public virtual async Task Update(TEntity entity, CancellationToken token)
         {
             if (entity is null) { throw new ArgumentNullException(nameof(entity)); }
@@ -37,10 +44,22 @@ namespace OnlineShop.Data.EntityFramework.Repositories
             await _dbContext.SaveChangesAsync(token);
         }
 
+        public virtual async Task UpdateUnsafe(TEntity entity, CancellationToken token)
+        {
+            if (entity is null) { throw new ArgumentNullException(nameof(entity)); }
+
+            _dbContext.Entry(entity).State = EntityState.Modified;
+        }
+
         public virtual async Task Delete(Guid id, CancellationToken token)
         {
             Entities.Remove(await GetById(id, token));
             await _dbContext.SaveChangesAsync(token);
+        }
+
+        public virtual async Task DeleteUnsafe(Guid id, CancellationToken token)
+        {
+            Entities.Remove(await GetById(id, token));
         }
     }
 }

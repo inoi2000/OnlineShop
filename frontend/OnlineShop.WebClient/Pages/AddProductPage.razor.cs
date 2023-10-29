@@ -3,14 +3,12 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using MudBlazor;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
+using OnlineShop.HttpModels.Models;
 
 namespace OnlineShop.WebClient.Pages;
 
 public partial class AddProductPage
 {
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
-
     private string Name { get; set; }
     private string Description { get; set; }
     private string ImagUri { get; set; }
@@ -22,7 +20,7 @@ public partial class AddProductPage
 
     private async Task SaveProduct()
     {
-        var Product = new Product(Name, Description, Price, new Uri(ImagUri));
+        var Product = new ProductResponse(Name, Description, Price, new Uri(ImagUri));
         await OnlineShopClient.AddProductAsync(Product, _cts.Token);
     }
 

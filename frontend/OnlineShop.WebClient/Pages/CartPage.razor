@@ -1,0 +1,30 @@
+﻿@page "/cart"
+@inherits AppComponentBase
+
+<PageTitle>Cart</PageTitle>
+
+<div Class="d-flex flex-wrap gap-4" Width="auto">
+    @if (Cart is not null){
+
+        @foreach (var item in Cart.Items)
+        {
+            <MudPaper Width="300px" Height="350px">
+                <MudCard>
+                    <MudCardMedia Image=@item.Product.ImagUri.ToString() Height="200"/>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">@item.Product.Name</MudText>
+                        <MudText Typo="Typo.body1">@item.Product.Price</MudText>
+                        <MudText Typo="Typo.body2">@item.Product.Description</MudText>
+                        <MudText Typo="Typo.body2">@item.Quantity</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Error">Удалить из корзины</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudPaper>
+        }
+    }
+    else{
+        <MudProgressCircular Color="Color.Primary" Style="height:70px;width:70px;" Indeterminate="true" />
+    }
+</div>

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Domain.Entities
+namespace OnlineShop.HttpModels.Models
 {
-    public class CartItem : IEntity
+    public class CartItemResponse
     {
         public Guid Id { get; init; }
-        public Guid ProductId { get; set; }
+
+        public ProductResponse Product { get; set; }
+
         public double Quantity { get; set; }
     }
 }

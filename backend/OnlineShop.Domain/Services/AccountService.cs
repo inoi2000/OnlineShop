@@ -40,8 +40,8 @@ namespace OnlineShop.Domain.Services
             //await _accountRepository.Add(account, token);
             var cart = new Cart(account.Id);
 
-            await _uow.AccountRepository.Add(account, token);
-            await _uow.CartRepository.Add(cart, token);
+            await _uow.AccountRepository.AddUnsafe(account, token);
+            await _uow.CartRepository.AddUnsafe(cart, token);
             await _uow.SaveChangesAsync(token);
         }
 

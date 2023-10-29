@@ -67,5 +67,6 @@ namespace OnlineShop.Domain.Entities
                 _passwordHash = value; 
             }
         }
+        public Cart Cart { get; set; }
     }
 }

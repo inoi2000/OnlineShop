@@ -17,6 +17,8 @@ namespace OnlineShop.Data.EntityFramework
 
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Account> Accounts => Set<Account>();
+        public DbSet<Cart> Carts => Set<Cart>();
+        public DbSet<CartItem> CartItems => Set<CartItem>();
     }
 
 }

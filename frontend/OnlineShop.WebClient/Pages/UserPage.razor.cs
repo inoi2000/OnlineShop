@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using MudBlazor;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using System.ComponentModel.DataAnnotations;
 using OnlineShop.HttpModels.Requests;

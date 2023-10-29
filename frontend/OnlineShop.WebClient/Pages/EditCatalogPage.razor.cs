@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using OnlineShop.HttpModels.Models;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
 using System;
 using System.Runtime.CompilerServices;
 
@@ -8,10 +8,9 @@ namespace OnlineShop.WebClient.Pages;
 
 public partial class EditCatalogPage : IDisposable
 {
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
 
-    private IReadOnlyList<Product>? Products { get; set; }
+    private IReadOnlyList<ProductResponse>? Products { get; set; }
 
     private CancellationTokenSource _cts = new CancellationTokenSource();
 

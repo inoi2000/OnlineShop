@@ -1,5 +1,5 @@
 ﻿@page "/catalog"
-@inject Blazored.LocalStorage.ILocalStorageService localStorage;
+@inherits AppComponentBase
 
 <PageTitle>Catalog</PageTitle>
 
@@ -25,7 +25,7 @@
                             <MudText Typo="Typo.body2" >@product.Description</MudText>
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Success" OnClick="@(() => AddToBasket(product))">В корзину</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Success" OnClick="@(() => AddToCart(product))">В корзину</MudButton>
                         </MudCardActions>
                     </MudCard>
                 </MudPaper>

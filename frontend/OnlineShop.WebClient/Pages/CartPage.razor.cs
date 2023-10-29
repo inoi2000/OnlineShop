@@ -5,11 +5,12 @@ using OnlineShopHttpApiClient;
 
 namespace OnlineShop.WebClient.Pages;
 
-public partial class BasketPage : IDisposable
+public partial class CartPage : IDisposable
 {
     [Inject] private NavigationManager Navigation { get; set; }
 
     private List<ProductResponse>? Products { get; set; }
+    private CartResponse Cart { get; set; }
 
     private CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -28,15 +29,19 @@ public partial class BasketPage : IDisposable
         if (Products != null)
         {
             Products?.Remove(product);
-            await LocalStorage.SetItemAsync<List<ProductResponse>>("onlineShop_basket", Products!);
+            var cart = await OnlineShopClient.GetCartAsync(_cts.Token);
+            //TODO добавить функционал удаления
+
+            //await LocalStorage.SetItemAsync<List<Product>>("onlineShop_basket", Products!);
         }
         await OnInitializedAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        Products = await LocalStorage.GetItemAsync<List<ProductResponse>>("onlineShop_basket");
-        if (Products == null) { Products = new List<ProductResponse>(); }
+        Cart = await OnlineShopClient.GetCartAsync(_cts.Token);
+        //Products = await OnlineShopClient.GetProductsFromCartAsync(_cts.Token);
+        if (Cart == null) { Cart = new CartResponse(); }
     }
 
     

@@ -1,7 +1,7 @@
 ﻿using OnlineShop.HttpApiClient;
+using OnlineShop.HttpModels.Models;
 using OnlineShop.HttpModels.Requests;
 using OnlineShop.HttpModels.Responses;
-using OnlineShopHttpApiClient.Models;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -34,9 +34,9 @@ namespace OnlineShopHttpApiClient
         }
 
         #region ProductClient
-        public async Task<IReadOnlyList<Product>> GetAllProductsAsync(CancellationToken token)
+        public async Task<IReadOnlyList<ProductResponse>> GetAllProductsAsync(CancellationToken token)
         {
-            var products = _httpClient.GetFromJsonAsync<IReadOnlyList<Product>>("catalog/get_all_products", token);
+            var products = _httpClient.GetFromJsonAsync<IReadOnlyList<ProductResponse>>("catalog/get_all_products", token);
             if (products is null)
             {
                 throw new InvalidOperationException("The server returned null product");
@@ -49,9 +49,9 @@ namespace OnlineShopHttpApiClient
             return product;
         }
 
-        public async Task<IReadOnlyList<Product>> GetProductsAsync(decimal minPrice, decimal maxPrice, CancellationToken token)
+        public async Task<IReadOnlyList<ProductResponse>> GetProductsAsync(decimal minPrice, decimal maxPrice, CancellationToken token)
         {
-            var products = _httpClient.GetFromJsonAsync<IReadOnlyList<Product>>($"catalog/get_products?minPrice={minPrice}&maxPrice={maxPrice}", token);
+            var products = _httpClient.GetFromJsonAsync<IReadOnlyList<ProductResponse>>($"catalog/get_products?minPrice={minPrice}&maxPrice={maxPrice}", token);
             if (products is null)
             {
                 throw new InvalidOperationException("The server returned null product");
@@ -64,20 +64,20 @@ namespace OnlineShopHttpApiClient
             return product;
         }
 
-        public async Task<Product> GetProductAsync(Guid id, CancellationToken token)
+        public async Task<ProductResponse> GetProductAsync(Guid id, CancellationToken token)
         {
-            var product = await _httpClient.GetFromJsonAsync<Product>($"catalog/get_product?Id={id}", token);
+            var product = await _httpClient.GetFromJsonAsync<ProductResponse>($"catalog/get_product?Id={id}", token);
             if (product is null) { throw new InvalidOperationException("The server returned null product"); }
             return product;
         }
 
-        public async Task AddProductAsync(Product product, CancellationToken token)
+        public async Task AddProductAsync(ProductResponse product, CancellationToken token)
         {
             using var response = await _httpClient.PostAsJsonAsync("catalog/add_product", product, token);
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task EditProductAsync(Product product, CancellationToken token)
+        public async Task EditProductAsync(ProductResponse product, CancellationToken token)
         {
             using var response = await _httpClient.PutAsJsonAsync("catalog/edit_product", product, token);
             response.EnsureSuccessStatusCode();
@@ -171,6 +171,28 @@ namespace OnlineShopHttpApiClient
                 return null; 
             }
             
+        }
+        #endregion
+
+        #region CartClient
+        public async Task<CartResponse> GetCartAsync(CancellationToken token)
+        {
+            var cart = await _httpClient.GetFromJsonAsync<CartResponse>("cart/get_cart", token);
+            if (cart != null)
+            {
+                return cart;
+            }
+            else
+            {
+                //TODO Проработать ошибки!!
+                return null;
+            }
+        }
+
+        public async Task AddProductToCartAsync(Guid productId, CancellationToken token)
+        {
+            using var response = await _httpClient.PostAsJsonAsync($"cart/add_product?productId={productId}", productId, token);
+            response.EnsureSuccessStatusCode();
         }
         #endregion
     }

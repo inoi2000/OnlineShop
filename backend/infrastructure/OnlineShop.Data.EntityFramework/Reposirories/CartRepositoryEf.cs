@@ -16,7 +16,7 @@ namespace OnlineShop.Data.EntityFramework.Reposirories
 
         public async Task<Cart> GetByAccountId(Guid accountId, CancellationToken token)
         {
-            return await Entities.FirstAsync(c => c.AccountId == accountId);
+            return await Entities.Include(i => i.Items).FirstAsync(c => c.AccountId == accountId);
         }
     }
 }

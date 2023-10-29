@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using MudBlazor;
 using OnlineShopHttpApiClient;
-using OnlineShopHttpApiClient.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using System.ComponentModel.DataAnnotations;
 using OnlineShop.HttpModels.Requests;
@@ -12,7 +11,6 @@ namespace OnlineShop.WebClient.Pages;
 
 public partial class RegistrationPage
 {
-    [Inject] private IOnlineShopClient OnlineShopClient { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Inject] private ISnackbar Snackbar { get; set; }
 

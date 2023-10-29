@@ -20,9 +20,25 @@ namespace OnlineShop.Domain.Entities
             this.AccountId = AccountId;
             Items = new List<CartItem>();
         }
-        public decimal GetTotalPrice()
+
+        public void AddItem(Guid productId, double quantity)
         {
-            return Items.Sum(it => it.Price);
+            if(quantity<=0) throw new ArgumentOutOfRangeException(nameof(quantity));
+            if(Items==null) throw new InvalidOperationException(nameof(Items));
+
+            var existedItem = Items.SingleOrDefault(it => it.ProductId == productId);
+            if (existedItem is not null)
+            {
+                existedItem.Quantity += quantity;
+            }
+            else
+            {
+                Items.Add(new CartItem()
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                });
+            }
         }
     }
 }
