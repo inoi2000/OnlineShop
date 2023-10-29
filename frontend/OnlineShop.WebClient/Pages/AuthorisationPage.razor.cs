@@ -6,6 +6,7 @@ using OnlineShopHttpApiClient;
 using Microsoft.AspNetCore.Components.Forms;
 using System.ComponentModel.DataAnnotations;
 using OnlineShop.HttpModels.Requests;
+using OnlineShop.HttpModels.Models;
 
 namespace OnlineShop.WebClient.Pages;
 
@@ -65,5 +66,10 @@ public partial class AuthorisationPage
                 StateHasChanged();
             }
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
     }
 }

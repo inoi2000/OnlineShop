@@ -35,6 +35,8 @@ public partial class BasketPage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         Products = await LocalStorage.GetItemAsync<List<ProductResponse>>("onlineShop_basket");
         if (Products == null) { Products = new List<ProductResponse>(); }
     }

@@ -37,6 +37,8 @@ public partial class EditCatalogPage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         Products = await OnlineShopClient.GetAllProductsAsync(_cts.Token);
     }
 

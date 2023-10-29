@@ -39,6 +39,8 @@ public partial class CartPage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         Cart = await OnlineShopClient.GetCartAsync(_cts.Token);
         //Products = await OnlineShopClient.GetProductsFromCartAsync(_cts.Token);
         if (Cart == null) { Cart = new CartResponse(); }

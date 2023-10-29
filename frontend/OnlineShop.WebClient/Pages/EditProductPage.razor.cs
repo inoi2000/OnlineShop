@@ -32,6 +32,8 @@ public partial class EditProductPage
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         Product = await OnlineShopClient.GetProductAsync(Id, _cts.Token);
 
         Name = Product.Name;

@@ -21,8 +21,12 @@ namespace OnlineShop.WebClient.Shared
             if (!string.IsNullOrWhiteSpace(token))
             {
                 OnlineShopClient.SetAuthorizationToken(token);
+                State.LoggedIn = true;
             }
-            State.LoggedIn = true;
+            else
+            {
+                State.LoggedIn = false;
+            }
         }
     }
 }

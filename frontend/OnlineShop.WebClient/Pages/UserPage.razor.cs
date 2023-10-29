@@ -45,5 +45,7 @@ public partial class UserPage
         State.IsTokenChecked = false;
         OnlineShopClient.DeleteAuthorizationToken();
         State.LoggedIn = false;
+
+        NavigationManager.NavigateTo("/authorisation");
     }
 }

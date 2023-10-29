@@ -52,6 +52,8 @@ public partial class CatalogPage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         Products = await OnlineShopClient.GetAllProductsAsync(_cts.Token);
         MaxPrice = Products.Max(x => x.Price);
         MinPrice = Products.Min(x => x.Price);
